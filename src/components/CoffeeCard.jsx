@@ -3,7 +3,7 @@ import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee,coffees, setCoffees }) => {
   const { name, chef, price, photo, _id } = coffee;
 
   const handleDelete = () => {
@@ -30,7 +30,10 @@ const CoffeeCard = ({ coffee }) => {
                 text: "Your Coffee has been deleted.",
                 icon: "success",
               });
-              console.log("after delete", data);
+
+              // remove the coffee from the state
+              const remainingCoffees = coffees.filter(cof=> cof._id !== _id);
+              setCoffees(remainingCoffees) 
             }
           });
       }
@@ -62,18 +65,18 @@ const CoffeeCard = ({ coffee }) => {
       {/* Action Buttons */}
       <div className="flex flex-col items-center space-y-2">
         <Link to={`/coffee/${_id}`}>
-          <button className="bg-[#D2B48C] hover:bg-[#c4a87a] text-white p-2 rounded">
+          <button className="bg-[#D2B48C] hover:cursor-pointer hover:bg-[#c4a87a] text-white p-2 rounded">
             <FaEye />
           </button>
         </Link>
         <Link to={`/updateCoffee/${_id}`}>
-          <button className="bg-[#3C3C3C] hover:bg-[#2e2e2e] text-white p-2 rounded">
+          <button className="bg-[#3C3C3C] hover:cursor-pointer hover:bg-[#2e2e2e] text-white p-2 rounded">
             <FaEdit />
           </button>
         </Link>
         <button
           onClick={() => handleDelete(_id)}
-          className="bg-[#EA4744] hover:bg-red-600 text-white p-2 rounded"
+          className="bg-[#EA4744] hover:cursor-pointer hover:bg-red-600 text-white p-2 rounded"
         >
           <FaTrash />
         </button>
